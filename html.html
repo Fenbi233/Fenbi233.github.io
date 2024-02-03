@@ -1,0 +1,180 @@
+<html>
+<head>
+  <title>HTML生成器</title>
+  <script type="text/javascript">
+   
+       var x=0;
+       var y=0;
+         /*
+         *初始化html代码
+         */
+        function loadData(){
+         //换行符
+          var newline="/r/n";
+           var obj=document.getElementById("html_content");
+           //定义页面字符变量
+           var htmlStr="";
+           htmlStr+="<html>"+newline;       
+      htmlStr+="<head>"+newline;       
+      htmlStr+="<title>请输入网页标题</title>"+newline;       
+      htmlStr+="</head>"+newline;       
+      htmlStr+="<body>"+newline;            
+      htmlStr+="</body>"+newline;       
+      htmlStr+="</html>"+newline;       
+           obj.value=htmlStr;
+        }
+         /*
+         *产生按钮的html代码
+         */
+         function getButtonStr(){
+          var controlStr=document.all.control_id.value;
+          var str="<input type=/"button/" id=/""+controlStr+"/""+" name=/""+controlStr+"/""+">";
+          insertText(document.all.html_content,str);
+         //document.all.html_content.value=str;
+        }
+         /*
+         *产生文本框的html代码
+         */
+        function getTextStr(){
+          var controlStr=document.all.control_id.value;
+          var str="<input type=/"text/" id=/""+controlStr+"/""+" name=/""+controlStr+"/""+">";
+         //document.all.html_content.value=str;
+          insertText(document.all.html_content,str);
+        }
+       
+         /*
+         *产生隐藏域的html代码
+         */
+        function getHiddenStr(){
+          var controlStr=document.all.control_id.value;
+          var str="<input type=/"hidden/" id=/""+controlStr+"/""+" name=/""+controlStr+"/""+">";
+         //document.all.html_content.value=str;
+          insertText(document.all.html_content,str);
+        }
+       
+        
+         /*
+         *产生select的html代码
+         */
+        function getSelectStr(){
+          var newline="/r/n";
+          var str="";
+         var controlStr=document.all.control_id.value;
+          str="<slect id=/""+controlStr+"/""+" name=/""+controlStr+"/""+">"+newline;
+          str+="<option value="+"/""+"/""+"></option>"+newline;
+          str+="</select>"+newline;
+         //document.all.html_content.value=str;
+          insertText(document.all.html_content,str);
+        }
+       
+     /*
+        *打开模式对话框,显示网页的运行效果
+        */
+         function previewHtml(){
+          var htmlCode=document.getElementById("html_content").value;
+          var newwin=window.open('','',''); //打开一个窗口并赋给变量newwin。
+     newwin.opener = null // 防止代码对论谈页面修改
+     newwin.document.write(htmlCode); //向这个打开的窗口中写入代码code，这样就实现了运行代码功能。
+     newwin.document.close();
+
+        }
+       
+        /*
+         *产生table的html代码
+         */
+        function getTableStr(){
+          var newline="/r/n";
+          var str="";
+          var controlStr=document.all.control_id.value;
+          str="<table id=/""+controlStr+"/""+" name=/""+controlStr+"/""+">"+newline;
+          str+="<tr>"+newline;
+          str+="<td>"+newline;
+          str+="</td>"+newline;
+          str+="</tr>"+newline;
+          str+="</table>"+newline;
+         //document.all.html_content.value=str;
+          insertText(document.all.html_content,str);
+        }
+        /**
+        *保存焦点
+        */
+     function  savePoint()    
+      {    
+      var   rng   =   event.srcElement.createTextRange();
+      x=event.x;
+      y=event.y;
+      } 
+      /*
+      *插入代码
+      */
+     function insertText(obj,str){
+      var newline="/r/n";
+       var rng=obj.createTextRange(); 
+       rng.moveToPoint(x,y);    
+        rng.moveStart("character",-obj.value.length) ;
+        var before=rng.text;
+        var newLineNum=before.split(newline).length-1;
+        var num=rng.text.length;
+         rng.moveStart("character",-obj.value.length);
+　          rng.moveEnd("character",-obj.value.length);
+            rng.collapse(true);
+        rng.moveStart("character",num-newLineNum) ;
+        rng.moveEnd("character",obj.value.length);
+            var after=rng.text;
+            obj.value=before+str+after;
+     }
+  </script>
+</head>
+<body οnlοad="loadData()">
+    <input type="button" name="cache_alert" value="初始化HTML代码" οnclick="loadData()">
+   <input type="button" name="cache_alert" value="测试Area的值" οnclick="alert(document.all.html_content.value)">
+   <input type="button" name="btn_review" value="预览效果" οnclick="previewHtml()">
+ 
+ 
+  
+  
+   <table>
+      <tr>
+       <td>HTML代码
+       </td>
+       <td>
+        <textarea id="html_content" rows="10"  cols="60" οnclick="savePoint()" >
+          </textarea>
+       </td>
+      </tr>
+      <tr>
+        <td>
+          控件id
+       </td>
+       <td>
+           <input type="text" id="control_id" name="control_id" value="">
+       </td>
+      </tr>
+       <tr>
+        <td>
+            <input type="button" name="btn_get_button" value="产生按钮" οnclick="getButtonStr()">
+       </td>
+        <td>
+            <input type="button" name="btn_get_text" value="产生文本" οnclick="getTextStr()">
+       </td>
+      </tr>
+      <tr>
+        <td>
+            <input type="button" name="btn_get_select" value="产生Select" οnclick="getSelectStr()">
+       </td>
+        <td>
+            <input type="button" name="btn_get_text" value="产生隐藏域" οnclick="getHiddenStr()">
+       </td>
+      </tr>
+      <tr>
+        <td>
+            <input type="button" name="btn_get_select" value="产生表格" οnclick="getTableStr()">
+       </td>
+        <td>
+            <input type="button" name="btn_get_text" value="产生文本" οnclick="tellPoint()">
+       </td>
+      </tr>
+  </table>
+ 
+</body>
+</html>
